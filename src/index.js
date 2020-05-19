@@ -1,84 +1,37 @@
-import {GraphQLServer} from 'graphql-yoga';
+import {GraphQLServer} from 'graphql-yoga'
 
-/*GraphQL Scalar Types
--String
--Boolean
--Int (whole numbers)
--Float (numbers with decimals)
--ID
-*/
-
-//Type definitions (application schema)
+// 1. Type Definitions
 const typeDefs = `
     type Query {
-        greeting(name: String, position: String): String!
-        add(numbers: [Float!]!): Float!
-        grades: [Int!]!
-        me: User!
-        post: Post!
-    }
-
-    type User {
-        id: ID!
+        hello: String!
         name: String!
-        email: String!
-        age: Int
+        location: String!
+        bio: String!
     }
-    
-    type Post {
-        id: ID!
-        title: String!
-        body: String!
-        published: Boolean!
-    }
-
 `
-
-//Resolvers
+// 2. Resolvers
 const resolvers = {
     Query: {
-        greeting(parent, args, ctx, info){
-            if(args.name && args.position){
-                return `Hello ${args.name}! You are my favorite ${args.position}`
-            }
-            console.log(args)
-            return 'Hello!'
+        hello () {
+            return 'This is my first query!'
         },
-        add(parent, args, ctx, info){
-            if(args.numbers.length === 0){
-                return 0
-            }
-            return args.numbers.reduce((acc, cur) => {
-                return acc + cur
-            } )
+        name () {
+            return 'Raul'
         },
-        grades(parent, args, ctx, info){
-            return[99, 98, 80]
+        location(){
+            return 'Mexico City'
         },
-        me() {
-            return {
-                id: '123098',
-                name: 'Raul',
-                email: 'raul@gmail.com',
-                age: 25
-            }
-        },
-        post(){
-            return {
-                id: '12345',
-                title: 'Post Number 1',
-                body: 'I am learning GraphQL',
-                published: true,
-            }
+        bio(){
+            return 'I am learning GraphQL'
         }
     }
 }
 
 const server = new GraphQLServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers
+    typeDefs,
+    resolvers,
 })
 
-server.start(()=> {
-    console.log('The server is up')
+server.start(() => {
+    console.log('The sever is up')
 })
