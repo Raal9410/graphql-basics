@@ -10,30 +10,39 @@ import {GraphQLServer} from 'graphql-yoga'
 // 1. Type Definitions
 const typeDefs = `
     type Query {
+        me: User!
+        post: Post!
+    },
+    type User {
+        id: ID!
+        name: String!
+        email: String!
+        age: Int
+    }
+    type Post {
+        id: ID!
         title: String!
-        price: Float!
-        releaseYear: Int
-        rating: Int
-        inStock: Boolean
+        body: String!
+        published: Boolean!
     }
 `
 // 2. Resolvers
 const resolvers = {
     Query: {
-        title(){
-            return 'PS5'
+        me(){
+            return{
+                id: '1234098',
+                name: 'Raul',
+                email: 'raul@example.com',
+            }
         },
-        price(){
-            return 499.99
-        },
-        releaseYear(){
-            return 2021
-        },
-        rating(){
-            return 5
-        },
-        inStock(){
-            return false
+        post(){
+            return {
+                id: '4567890',
+                title: 'First post',
+                body: 'GraphQL post 101',
+                published: false
+            }
         }
     }
 }
