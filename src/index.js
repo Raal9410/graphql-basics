@@ -10,6 +10,8 @@ import {GraphQLServer} from 'graphql-yoga'
 // 1. Type Definitions
 const typeDefs = `
     type Query {
+        greeting(name: String, position: String): String!
+        add(a: Float!, b: Float): Float!
         me: User!
         post: Post!
     },
@@ -29,6 +31,15 @@ const typeDefs = `
 // 2. Resolvers
 const resolvers = {
     Query: {
+        add(parent, args, ctx, info){
+            return args.a + args.b
+        },
+        greeting(parent, args, ctx, info){
+            if(args.name && args.position){
+                return `Hello, ${args.name}! You are my favorite ${args.position}`
+            }
+            return 'Hello'
+        },
         me(){
             return{
                 id: '1234098',
